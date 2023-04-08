@@ -8,6 +8,11 @@
 #![allow(arithmetic_overflow)]
 #![feature(extern_types)]
 
+//! A c2rust port of librobotcontrol. Comments and docstrings are stripped
+//! out. See the
+//! [C library documentation](https://beagleboard.org/static/librobotcontrol/index.html)
+//! for an idea of how to use this library.
+
 pub mod bmp;
 pub mod button;
 pub mod cpu;
