@@ -3,14 +3,15 @@ name = "librobotcontrol-sys"
 version = "0.1.0"
 authors = ["Yusuf Simonson <simonson@gmail.com>"]
 edition = "2021"
-description = "Low-level bindings to librobotcontrol"
+description = "Rust port of librobotcontrol"
 repository = "https://github.com/ysimonson/librobotcontrol-sys"
-autobins = false
-crate-type = ["staticlib", "rlib"]
+license = "Apache-2.0"
+readme = "README.md"
 
 [lib]
 name = "librobotcontrol_sys"
 path = "src/lib.rs"
+crate-type = ["staticlib", "rlib"]
 
 [dependencies]
 c2rust-bitfields= "0.3"
