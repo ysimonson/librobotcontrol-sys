@@ -1,0 +1,21 @@
+[package]
+name = "librobotcontrol-sys"
+version = "0.1.0"
+authors = ["Yusuf Simonson <simonson@gmail.com>"]
+edition = "2021"
+description = "Low-level bindings to librobotcontrol"
+repository = "https://github.com/ysimonson/librobotcontrol-sys"
+autobins = false
+crate-type = ["staticlib", "rlib"]
+
+[lib]
+name = "librobotcontrol_sys"
+path = "src/lib.rs"
+
+[dependencies]
+c2rust-bitfields= "0.3"
+libc= "0.2"
+
+[dev-dependencies]
+lazy_static = "1"
+signal-hook = "0.3.15"
