@@ -11,9 +11,8 @@ init:
 bindings:
 	docker buildx build  --progress=plain --output=bindings .
 	mv bindings/bindings.rs src/bindings.rs && cargo fmt
-	rm bindings/librobotcontrol.so.1
-	mv bindings/librobotcontrol.so.1.0.5 lib/librobotcontrol.so
-	mv bindings/libc.musl-armv7.so.1 lib/
+	mkdir -p lib
+	mv bindings/librobotcontrol.a lib/
 
 deploy-heading-example:
 	cargo build --example heading --release --target $(target)
