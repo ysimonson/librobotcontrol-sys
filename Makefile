@@ -9,7 +9,11 @@ init:
 	git submodule update --init
 
 lib/librobotcontrol.a:
-	docker buildx build  --progress=plain --output=lib .
+	docker buildx build -f lib.Dockerfile --progress=plain --output=lib .
+
+src/bindings.rs:
+	docker buildx build -f src.Dockerfile --progress=plain --output=src .
+	cargo fmt
 
 deploy-heading-example:
 	cargo build --example heading --release --target $(target)
