@@ -8,11 +8,8 @@ export CARGO_TARGET_ARMV7_UNKNOWN_LINUX_MUSLEABIHF_LINKER=arm-linux-gnueabihf-ld
 init:
 	git submodule update --init
 
-bindings:
-	docker buildx build  --progress=plain --output=bindings .
-	mv bindings/bindings.rs src/bindings.rs && cargo fmt
-	mkdir -p lib
-	mv bindings/librobotcontrol.a lib/
+lib/librobotcontrol.a:
+	docker buildx build  --progress=plain --output=lib .
 
 deploy-heading-example:
 	cargo build --example heading --release --target $(target)
