@@ -1,0 +1,3 @@
+[submodule "librobotcontrol"]
+	path = librobotcontrol
+	url = https://github.com/beagleboard/librobotcontrol
