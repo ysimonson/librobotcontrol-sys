@@ -7,6 +7,8 @@ export CARGO_TARGET_ARMV7_UNKNOWN_LINUX_MUSLEABIHF_LINKER=arm-linux-gnueabihf-ld
 
 init:
 	git submodule update --init
+	git lfs install
+	git lfs pull
 
 lib/librobotcontrol.a:
 	docker buildx build -f lib.Dockerfile --progress=plain --output=lib .
