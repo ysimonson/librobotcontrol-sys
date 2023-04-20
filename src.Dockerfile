@@ -7,7 +7,12 @@ COPY ./librobotcontrol/library /app/
 WORKDIR /app
 RUN make
 RUN make install
-RUN ~/.cargo/bin/bindgen include/robotcontrol.h -o bindings.rs --with-derive-default
+RUN ~/.cargo/bin/bindgen --help
+RUN ~/.cargo/bin/bindgen include/robotcontrol.h -o bindings.rs \
+    --with-derive-default \
+    --no-prepend-enum-name \
+    --allowlist-function="rc_.+" \
+    --allowlist-type="rc_.+"
 
 FROM scratch AS output
 COPY --from=build /app/bindings.rs .
