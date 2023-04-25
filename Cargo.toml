@@ -17,5 +17,4 @@ crate-type = ["staticlib", "rlib"]
 libc = "0.2"
 
 [dev-dependencies]
-lazy_static = "1"
 signal-hook = "0.3.15"

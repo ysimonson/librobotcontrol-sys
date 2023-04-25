@@ -1,29 +1,24 @@
 use std::f64::consts::PI;
 use std::ffi::c_int;
 use std::sync::atomic::{AtomicBool, Ordering};
-use std::sync::{Arc, Mutex};
+use std::sync::Arc;
 use std::thread;
 use std::time::Duration;
-
-use lazy_static::lazy_static;
 
 // Bus for Robotics Cape and BeagleboneBlue is 2, interrupt pin is on gpio3.21.
 // Change these for your platform.
 const I2C_BUS: c_int = 2;
 const GPIO_INT_PIN_CHIP: c_int = 3;
 const GPIO_INT_PIN_PIN: c_int = 21;
-
-lazy_static! {
-    static ref DATA: Mutex<librobotcontrol_sys::rc_mpu_data_t> =
-        Mutex::new(librobotcontrol_sys::rc_mpu_data_t::default());
-}
+static mut DATA: Option<librobotcontrol_sys::rc_mpu_data_t> = None;
 
 unsafe extern "C" fn print_data() {
-    let data = DATA.lock().unwrap();
-    print!("\rheading: {:.1}", data.compass_heading * 360.0 / (PI * 2.0));
+    print!("\rheading: {:.1}", DATA.as_ref().unwrap().compass_heading * 360.0 / (PI * 2.0));
 }
 
 fn main() {
+    unsafe { DATA = Some(librobotcontrol_sys::rc_mpu_data_t::default()); }
+
     let mut conf = unsafe { librobotcontrol_sys::rc_mpu_default_config() };
     conf.i2c_bus = I2C_BUS;
     conf.gpio_interrupt_pin_chip = GPIO_INT_PIN_CHIP;
@@ -31,7 +26,7 @@ fn main() {
     conf.enable_magnetometer = 1;
 
     // now set up the imu for dmp interrupt operation
-    let init_code = unsafe { librobotcontrol_sys::rc_mpu_initialize_dmp(&mut *DATA.lock().unwrap(), conf) };
+    let init_code = unsafe { librobotcontrol_sys::rc_mpu_initialize_dmp(DATA.as_mut().unwrap(), conf) };
     if init_code != 0 {
         println!("rc_mpu_initialize_dmp failed with code={}", init_code);
         return;
